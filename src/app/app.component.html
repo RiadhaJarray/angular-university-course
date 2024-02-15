@@ -1,27 +1,242 @@
 <div class="top-menu">
 
-    <img class="logo"
-         src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
+    <img class="logo" src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
 
 </div>
+
+<div class="courses" *ngIf="courses[3] as course">
+
+<!-- ng-template features use -->
+    <ng-template #blankImage let-courseName="description">
+        <p class="warn"> {{courseName}} has no image yet.</p>
+
+        <img src="/assets/empty-image.png" >
+    </ng-template>
+
+    <!-- here we use the ng-template and add it to these to div and ng-container 
+        and we pass a context with description attribute
+        but this not what template are for hhhhh-->
+    <!--<ng-container *ngTemplateOutlet="blankImage; context: {description : course.description}"> 
+
+    </ng-container>
+
+    <div *ngTemplateOutlet="blankImage; context: {description : courses[5].description}"> 
+        
+    </div>-->
+<hr>
+<hr>
+
+
+
+
+
+    <course-card
+        (courseSelected)="onCourseSelected($event)"
+        [course]="course" 
+        [index]="2"
+        [noImageTpl]="blankImage">
+
+        <!--<div class="course-image" #courseImage>
+            <img width="300" alt="Angular Logo" 
+            [src]="course.iconUrl">
+            <h5>total lessens : 5</h5>
+        </div>-->
+
+        <course-image [src]="course.iconUrl"></course-image>
+
+        <course-image [src]="courses[4].iconUrl"></course-image>
+
+        <course-image [src]="courses[6].iconUrl"></course-image>
+
+
+        <div class="course-description">
+            {{ course.longDescription}}
+        </div>
+        
+        <h6>Total chapter : 12</h6>
+
+
+    </course-card>
+
+   <!--<course-card
+        (courseSelected)="onCourseSelected($event)"
+        [course]="courses[6]" 
+        [index]="2">
+        <h5>total lessens : 10</h5>
+
+
+    </course-card>-->
+
+</div>
+
+<!-- we added this button to test the obserbavle function "this.cards.changes.subscribe()"-->
+<button (click)="onCourseEdited()">Edit Courses</button>
+
+<div class="courses" #containerRsef>
+
+   <!--<course-card #cardRef1
+        (courseSelected)="onCourseSelected($event)"
+        [course]="courses[2]" 
+        [index]="2">
+    </course-card>
+
+    <course-card #cardRef2
+        (courseSelected)="onCourseSelected($event)"
+        [course]="courses[5]" 
+        [index]="5">
+    </course-card>-->
+
+
+    <!--  we used this repetition to see that the the view child see the first occurence of the child even if we click on the button of the second occcurence -->
+    <!--<course-card 
+        (courseSelected)="onCourseSelected($event)"
+        [course]="courses[5]" 
+        [index]="5">
+    </course-card>-->
+
+
+</div>
+
+<!-- pipes
+    transform data to display it to the user in new form
+
+-->
+<div class="demo">
+    <!--pipe for date-->
+    <div>Start date : {{ startDate | date: 'MMM dd yyyy' }}</div>
+
+    <!--pipe for string
+        uppercase : all majiscule
+        lowercase : all miniscule
+        titlecase : first lettre majiscule
+    -->
+    <div>{{title | titlecase}}</div>
+
+    <!--pipe for price
+        | number : '3.3-5' : 3 numbr on the left and 3 to max 5 on the right 
+        | currency : 'EUR' : add currency symbole by default $ and we can change
+    -->
+    <div>{{price | currency : 'EUR'}}</div>
+
+    <!--pipe for percent-->
+    <div>{{rate | percent}}</div>
+
+</div>
+
+
+<!--pipe for json : show the list on json format 
+    nice way to debug objects content and value-->
+<!-- {{courses | json}} -->
+
+
+<!-- pipe for object 
+    *ngFor="let pair of course | keyvalue" :  by default "course" is not iterable but with the pipe "keyvalue" it changes to iterable
+-->
+<!--
+    <div *ngFor="let pair of course | keyvalue">
+    {{pair.key + ' : '+ pair.value}}
+</div>
+-->
+
 
 
 <div class="courses">
-
-    <div class="course-card">
-
-        <div class="course-title">
-            Angular Core Deep Dive
-        </div>
-        <img width="300" alt="Angular Logo"
-             src="https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-core-in-depth-small.png">
-
-        <div class="course-description">
-            A detailed walk-through of the most important part of Angular - the Core and Common modules.
-        </div>
-
-    </div>
+    <!--pipe for list of element
+        | slice:1:3 => show element from index 1 to 3:excluded
+    -->
+   <!-- <course-card *ngFor="let course of courses | slice:1:3; index as i;" (courseSelected)="onCourseSelected($event)"
+        [course]="course" [index]="i+1" />-->
 
 </div>
 
 
+<!-- here we use three seperated courses to explain events-->
+<!-- <div class="courses">-->
+
+<!-- on first card we use clickEvent that is a  native and prerecognised browser event -->
+<!--
+     <course-card (click)="onCardClicked()" [course]="rxjsCourse"></course-card>
+    -->
+
+<!-- on the second card we use a specific personilised event -->
+<!-- so we create the methode onCourseSelected($event) with event as parameter
+       and we delare the event "courseSelected" as an eventemmiter on the child component with annotation "@output"
+        the component "course-card" here send the course to the parent componetn "appcomponent"-->
+<!--
+            <course-card (courseSelected)="onCourseSelected($event)" [course]="coreCourse"></course-card>
+
+
+            <course-card [course]="ngrxCourse"></course-card>
+
+        </div>
+    -->
+
+<!-- same div but with for loop-->
+<div class="courses">
+
+    <!-- track is mandatory : we can use "track course.id" or "track $index" or "track course"-->
+    <!-- not only the index : all the attributes here "let index = $index;" can be called with directly $index for example [class.is-first]="$first" directly $first here no need to declare let first -->
+    <!-- track function helps angualr identify modifications and changes:
+         for example the "courses" list will be displayed here and angular detect changes so in place of reloeding all courses 
+        with track function it detects changes and added and deleted updated courses  and update the view correspondingly 
+     we can say that angular use "diff" function 
+    this helps and ameliorate perfermance (safer to be mandatory :) )
+    change only the part that realy need to be changes -->
+    <!-- finaly we change "track course.id" by "track trackCourse" a track function to do the track-->
+    @for (course of courses; track trackCourse; let index = $index; let count = $count; let first = $first; let last =
+    $last; let even = $even; let odd = $odd) {
+    <!--<h1>Count : {{ count }}</h1>-->
+    <!--<course-card 
+            (courseSelected)="onCourseSelected($event)" 
+            [course]="course"
+            [index]="index"
+            [class.is-first]="first"
+            [class.is-last]="last"
+            [class.is-even]="even"
+            [class.is-odd]="odd"
+            />-->
+    }
+
+    @empty {
+
+    <h1>No Elements Found</h1>
+    }
+</div>
+
+
+
+<!-- ngFor directive : previous version of @for-->
+<!--
+<div class="courses">
+
+    <course-card *ngFor="let course of courses; index as i; first as isFirst; last as isLast; even as isEven; odd as isOdd"
+        [class.is-first]="isFirst"
+        [class.is-last]="isLast"
+        [class.is-even]="isEven"
+        [class.is-odd]="isOdd"
+
+        (courseSelected)="onCourseSelected($event)"
+        [course]="course"
+        [index]="i + 1"
+        />
+
+</div>
+
+-->
+
+
+<!-- we can use this commmand to migrate almost all the feature of ngIf, ngFor, ngSwitch to the new workflow 
+    ng genarate @angular/core:control-flow
+ -->
+<!--
+<div class="courses">
+
+    <course-card *ngFor="let course of courses; index as i;"
+
+        (courseSelected)="onCourseSelected($event)"
+        [course]="course"
+        [index]="i + 1"
+        />
+
+</div>
+-->
