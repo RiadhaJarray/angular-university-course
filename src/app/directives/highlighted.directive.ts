@@ -1,4 +1,5 @@
-import {Directive, EventEmitter, HostBinding, HostListener, Input, Output} from '@angular/core';
+import {Directive, EventEmitter, Host, HostBinding, HostListener, Input, Output} from '@angular/core';
+import { CoursesService } from '../services/courses.service';
 
 @Directive({
     selector: '[highlighted]',
@@ -12,9 +13,13 @@ export class HighlightedDirective {
     @Output()
     toggleHighlight = new EventEmitter();
 
-    constructor() {
+
+    //we add "@Host" decorator : this means that this "highlighted" derective want to use the "coursesService" injected from the card and not from the parent
+    //remarque : not good to work with 
+    constructor(@Host() private coursesService : CoursesService) {
 
         console.log('Directive created..');
+        console.log('HighlightedDirective..' , coursesService.id);
 
     }
 
