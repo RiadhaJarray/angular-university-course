@@ -1,0 +1,1 @@
+every component when it is generated has his own specific styles identifier.

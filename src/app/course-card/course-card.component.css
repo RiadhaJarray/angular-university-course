@@ -1,3 +1,72 @@
+/* this is not working here because we are inside the componennt 
+    the css classes here are applied to the element of the component and not the componentn it self
+    we can use this css in the parent class of "course-card" and it work well
+    so not "-ngcontent-c01" identifier */
+/*course-card {
+    display: block;
+}*/
+
+/* the solution to apply css to the component it self from here (from inside ) is to use ":host" 
+    using "nghost-c01" identifier */
+:host {
+    display: block;
+}
+
+:host.is-first {
+    border-top: 2px solid grey;
+    padding-top: 20px;
+}
+
+:host.is-last {
+    border-bottom: 2px solid grey;
+    padding-top: 20px;
+}
+
+:host.is-even {
+    background: lightgray;
+}
+
+
+:host.is-odd {
+    background: lightcyan;
+}
+
+/* with ngdeep here means : that "salmon-theme" is applied to all course-card classes
+    for example here the background is applied to the div with course-card class witch is in the app-component the css propagate to the parent*/
+/*::ng-deep .salmon-theme  .course-card {
+    background: lightsalmon;
+}*/
+
+
+/*remember that we are inside the course-card component ; only applies to the host witch is the course card component
+    "salmon-theme" is ony applied to the host (where we declare the css class )*/
+:host-context(.salmon-theme) .course-card {
+    background: lightsalmon;
+}
+
+
+
+.course-card {
+    margin-bottom: 40px;
+    text-align: center;
+    border-radius: 4px;
+    padding: 20px 0;
+    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, .2), 0 2px 8px 0 rgba(0, 0, 0, .14), 0 4px 8px -1px rgba(0, 0, 0, .12);
+}
+
+.course-card .course-title {
+    font-size: 27px;
+    font-weight: bold;
+}
+
+/*::ng-deep => every thing comes after ngdeep , css after ngdeep is no longer specific it is appliyed to all */
+.course-card ::ng-deep .course-description {
+    max-width: 360px;
+    margin: 0 auto;
+    margin-top: 15px;
+  user-select: none;
+  }
+
 
 .course-card.beginner {
     background: lightsalmon;

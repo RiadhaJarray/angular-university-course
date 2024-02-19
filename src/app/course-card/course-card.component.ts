@@ -9,7 +9,8 @@ import {
     Input,
     OnInit,
     Output, QueryList, TemplateRef,
-    ViewChild
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {COURSES} from '../../db-data';
 import {Course} from '../model/course';
@@ -18,7 +19,11 @@ import {CourseImageComponent} from '../course-image/course-image.component';
 @Component({
     selector: 'course-card',
     templateUrl: './course-card.component.html',
-    styleUrls: ['./course-card.component.css']
+    styleUrls: ['./course-card.component.css'],
+    //encapsulation : ViewEncapsulation.Emulated //default viewencapsulation : every component has its specific css
+    //encapsulation : ViewEncapsulation.None //no ":host" applied //no specific css
+    encapsulation : ViewEncapsulation.ShadowDom //i didn't understand it hhh (so when i need it i will understand it)
+
 })
 export class CourseCardComponent implements OnInit, AfterViewInit, AfterContentInit {
 
