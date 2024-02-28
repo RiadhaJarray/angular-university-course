@@ -7,8 +7,36 @@
 
 
 
+<!--<div style="border:5px solid red; min-height: 900px; margin:10px;"></div>-->
+<!--<div class="demo-triggers">
+  <input placeholder="type to trigger prefetch"  #prefetch/>
+  <button #display>Trigger Display</button>
+</div>-->
 
-<div>
+<div style="border:5px solid red; min-height: 200px; margin:10px; padding: 10px;" #triggerPrefectch>
+
+  <button (click)="onPrefetch()">Trigger Prefetch</button>
+
+  <button (click)="onDisplay()">Trigger Display</button>
+</div>
+
+
+
+<h1 #title>trigger viewport</h1>
+
+
+@defer (when display; prefetch when performPrefetch) { <!--the cotent in defer block will be generated in a seperate file 
+                    on idle; prefetch on idle / prefetch on immediate :default trigger
+                    on timer(15s); prefetch on timer(10s) => place holder displayed for 10 secondes and at 10 secondes the content is loaded but still not displayed and after 5 secondes the content is displayed
+                    on viewport; => it is loaded to html only when the wiew part is displayed 
+                    on viewport(title); => same thing but with condition to display of the title condition
+                    on interaction; => it shows when you interact with the placeholder
+                    on interaction(display); prefetch on interaction(prefetch) => onInteraction with "prefetch" preftch happen // on Intercation with "display" defer content display happen
+                    on interaction(display); prefetch on hover(triggerDisplay) => loadcontent on hover and show it on intercation (dans notre cas lorsque on click sur le hovermessage)
+                    when display; prefetch when performPrefetch => display and performPrefetch : variables
+                  -->
+
+    <div>
 
       @for (course of courses; track $index; let count = $count) {
 
@@ -18,8 +46,31 @@
           (courseSelected)="onCourseSelected($event)" />
 
       }
-  
-</div>
+
+  </div>
+
+}
+@placeholder () {     <!--@placeholder(minimum 3s)-->
+                            <!-- eager loaded with page and not with defer 
+                                    it will be shown in place of the defer content (replace)
+                                    it is not a timer or preloader or something like that
+                            -->
+  <h2>This is the palceholder! </h2>
+  <!--<input placeholder="This is the palceholder!" />-->
+}
+@loading (minimum 3s; after 1s) {  <!-- visible when loading 
+                                      minimum 3s; after 1s => if the content not displayed in 1 seconde so show loading indiactor for 3 secondes
+                                    -->
+  <h2>this is loading indicator ...</h2>
+
+}
+@error { <!-- 
+          show error : for example we decided to manually block the load of the defer content after the 10 secondes that are declared in the defer declaration 
+        -->
+  <h2>An eroor occurred.</h2>
+}
+
+
 
 
 
