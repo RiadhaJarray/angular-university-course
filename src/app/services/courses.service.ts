@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 let counter : number = 0;
 
-//with options here : the service is intentiated only when it is called 
+//with options here : the service is instentiated only when it is called 
 @Injectable({
   providedIn: 'root' //singleton : means that we should create an instance and one instance and make it available to the root of the application
                       //that instance will be available for all the app 
